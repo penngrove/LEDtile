@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <CurieIMU.h>
-#include <Math.h>
 #include "MadgwickAHRS.h"
+#include "RGBConverter.h"
 
 #define PIN 6
 
@@ -41,11 +41,6 @@ float accelScale, gyroScale;
 void setup() {
   Serial.begin(115200);
 
-  while (!Serial);    // wait for the serial port to open
-
-  // initialize device
-  Serial.println("Initializing IMU device...");
-
   // start the IMU and filter
   CurieIMU.begin();
   CurieIMU.setGyroRate(25);
@@ -64,6 +59,10 @@ void setup() {
   strip.setBrightness(BRIGHTNESS);
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+
+  while (!Serial);    // wait for the serial port to open
+
+  Serial.println("Initialization complete...");
 }
 
 void loop() {
